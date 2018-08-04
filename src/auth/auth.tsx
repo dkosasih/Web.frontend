@@ -1,17 +1,22 @@
-import * as auth0  from 'auth0-js';
+import { Auth0DecodedHash, Auth0UserProfile, WebAuth, } from 'auth0-js';
 import { history } from 'routes';
 import { AUTH_CONFIG } from './auth0-variables';
 
 
 export interface ComponentAuth {
-    auth?: Auth;
+  auth?: Auth;
 }
-  
+
+export enum AuthPermission {
+  readProduct = "read:products",
+  writeProduct = "write:products" 
+}
+
 export default class Auth {
-  userProfile: auth0.Auth0UserProfile | null;
+  userProfile: Auth0UserProfile | null;
   requestedScopes = 'openid profile read:products write:products';
 
-  auth0 = new auth0.WebAuth({
+  auth0 = new WebAuth({
     domain: AUTH_CONFIG.domain,
     clientID: AUTH_CONFIG.clientId,
     redirectUri: AUTH_CONFIG.callbackUrl,
@@ -43,29 +48,32 @@ export default class Auth {
         history.replace('/');
         console.log(err);
         alert(`Error: ${err.error}. Check the console for further details.`);
+      } else {
+        // if nothing is parsed; redirect to home
+        setTimeout(() => {
+          history.replace('/');
+        }, 0);
       }
     });
 
-    // if nothing is parsed; redirect to home
-    history.replace('/');
   }
 
-    setSession(authResult: auth0.Auth0DecodedHash) {
-        if (authResult) {
-            // Set the time that the access token will expire at
-            const expiresAt = JSON.stringify(
-                authResult.expiresIn! * 1000 + new Date().getTime()
-            );
-            const scopes = authResult.scope || this.requestedScopes || '';
+  setSession(authResult: Auth0DecodedHash) {
+    if (authResult) {
+      // Set the time that the access token will expire at
+      const expiresAt = JSON.stringify(
+        authResult.expiresIn! * 1000 + new Date().getTime()
+      );
+      const scopes = authResult.scope || this.requestedScopes || '';
 
-            localStorage.setItem('access_token', authResult.accessToken!);
-            localStorage.setItem('id_token', authResult.idToken!);
-            localStorage.setItem('expires_at', expiresAt);
-            localStorage.setItem('scopes', JSON.stringify(scopes));
+      localStorage.setItem('access_token', authResult.accessToken!);
+      localStorage.setItem('id_token', authResult.idToken!);
+      localStorage.setItem('expires_at', expiresAt);
+      localStorage.setItem('scopes', JSON.stringify(scopes));
 
-            // navigate to the home route
-            history.replace('/');
-        }
+      // navigate to the home route
+      history.replace('/');
+    }
   }
 
   getAccessToken() {
@@ -97,9 +105,6 @@ export default class Auth {
       clientID: AUTH_CONFIG.clientId,
       returnTo: AUTH_CONFIG.callbackUrl
     });
-
-    // navigate to the home route
-    history.replace('/');  
   }
 
   isAuthenticated() {

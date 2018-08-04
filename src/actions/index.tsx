@@ -1,5 +1,5 @@
-import { PRODUCTS_LOAD, PRODUCTS_LOAD_COMPLETED } from 'actions/action.types';
-import { Product } from 'dto/product';
+import { PRODUCTS_DELETE, PRODUCTS_DELETE_COMPLETED, PRODUCTS_LOAD, PRODUCTS_LOAD_COMPLETED } from 'actions/action.types';
+import { ProductDto } from 'dto/product';
 // import { Action } from 'redux';
 import { ActionType, createAction } from 'typesafe-actions';
 
@@ -10,19 +10,13 @@ export const productActions = {
     loadProductsAction : createAction(PRODUCTS_LOAD, resolve => {
         return (authToken: string) => resolve(authToken);
     }),
-    productsLoadCompletedAction:  createAction(PRODUCTS_LOAD_COMPLETED, resolve => {
-        return (payload: Product[] | null = null) => resolve(payload);
+    loadProductCompletedAction:  createAction(PRODUCTS_LOAD_COMPLETED, resolve => {
+        return (payload: ProductDto[] | null = null) => resolve(payload);
     }),
+    deleteProductAction: createAction(PRODUCTS_DELETE, resolve => {
+        return (id: string, authToken: string) => resolve({ id, authToken });
+    }),
+    deleteProductCompletedAction: createAction(PRODUCTS_DELETE_COMPLETED, resolve => {
+        return (id: string) => resolve(id);
+    })
 }
-
-// export class ProductsLoadAction implements Action {
-//     readonly type: string = PRODUCTS_LOAD;
-//     constructor(public payload: string) { }
-// }
-
-// export class ProductsLoadCompletedAction implements Action {
-//     readonly type: string = PRODUCTS_LOAD_COMPLETED;
-//     constructor(public payload: Product[] | null = null) { }
-// }
-
-// export type ProductActions = ProductsLoadAction | ProductsLoadCompletedAction;

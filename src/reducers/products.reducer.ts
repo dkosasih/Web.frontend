@@ -1,10 +1,10 @@
 import { ProductActions, productActions } from 'actions';
-import { Product } from "dto/product";
+import { ProductDto } from "dto/product";
 import { getType } from 'typesafe-actions';
 
 export interface ProductsState {
     loading: boolean;
-    products?: Product[];
+    products?: ProductDto[];
   }
   
   const initialState = {
@@ -13,8 +13,10 @@ export interface ProductsState {
   
   export const productsReducer = (state: ProductsState = initialState, action: ProductActions): ProductsState => {  
     switch (action.type) {
-      case getType(productActions.productsLoadCompletedAction):
+      case getType(productActions.loadProductCompletedAction):
         return Object.assign({}, state, { products: action.payload });
+      case getType(productActions.deleteProductCompletedAction):
+        return Object.assign({}, state, { products: state.products!.filter(x => x.id !== action.payload) });
       default:
         return state;
     }

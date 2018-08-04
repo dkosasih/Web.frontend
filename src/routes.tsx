@@ -17,10 +17,7 @@ export interface BrowserHistory {
 const auth = new Auth();
 
 const handleAuthentication = ({ location }: any) => {
-  if (/access_token|id_token|error/.test(location.hash)) {
     auth.handleAuthentication();
-  }
-  history.replace("/");
 }
 
 export const doRoutes = () => {
@@ -32,7 +29,7 @@ export const doRoutes = () => {
         </div>
         <div className="container">
           <Route path='/products' render={(props) => <Products auth={auth} />} />
-          <Route path="/callback" render={(props) => {
+          <Route path='/callback' render={(props) => {
             handleAuthentication(props);
             return <Callback {...props} />
           }} />

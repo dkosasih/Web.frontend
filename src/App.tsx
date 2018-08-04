@@ -10,7 +10,7 @@ import { BrowserHistory } from 'routes';
 
 interface ComponentProps extends ComponentAuth, BrowserHistory {}
 
-class App extends React.Component<ComponentProps> {
+class App extends React.PureComponent<ComponentProps> {
   
   login() {
     this.props.auth!.login();
