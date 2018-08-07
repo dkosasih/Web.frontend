@@ -1,7 +1,6 @@
 export const AUTH_CONFIG = {
-    domain: '{DOMAIN}',
-    clientId: '{CLIENT_ID}',
-    callbackUrl: 'http://localhost:3000/callback',
-    apiUrl: '{API_NAMESPACE}'
-  }
-  
+  domain: 'dkosasih.au.auth0.com',
+  clientId: 'SbRbjXcXGmbBMvTvzN0cOeete6QviOeo',
+  callbackUrl: 'http://localhost:3000/callback',
+  apiUrl: 'https://dkosasih.jb.api'
+}
