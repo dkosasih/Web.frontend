@@ -13,7 +13,7 @@ export interface  ComponentProps extends ComponentAuth {
     deleteProduct?: (id: string, authToken: string) => void; 
 }
 
-class Products extends React.Component<ComponentProps, {}> {
+export class Products extends React.Component<ComponentProps, {}> {
     constructor(props: ComponentProps) {
         super(props);
     }

@@ -6,10 +6,11 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from "redux";
 import { createEpicMiddleware } from "redux-observable";
-import { doRoutes } from 'routes';
+import { doRoutes, history } from 'routes';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
+import   { routerMiddleware } from 'react-router-redux';
 import reducers, { RootState } from "./reducers";
 
 declare global {
@@ -33,7 +34,7 @@ function configureStore(initialState?: RootState) {
   
   // compose enhancers
   const enhancer  = composeEnhancers(
-    applyMiddleware(...middlewares)
+    applyMiddleware(...middlewares, routerMiddleware(history))
   );
   
   // create store
@@ -49,7 +50,6 @@ function configureStore(initialState?: RootState) {
 }
 
 export const store = configureStore();
-
 const routes = doRoutes();
 
 ReactDOM.render(

@@ -1,10 +1,9 @@
 import { PRODUCTS_DELETE, PRODUCTS_DELETE_COMPLETED, PRODUCTS_LOAD, PRODUCTS_LOAD_COMPLETED } from 'actions/action.types';
 import { ProductDto } from 'dto/product';
-// import { Action } from 'redux';
+import { RouterAction } from 'react-router-redux';
 import { ActionType, createAction } from 'typesafe-actions';
 
 export type ProductActions = ActionType<typeof productActions>;
-
 
 export const productActions = {
     loadProductsAction : createAction(PRODUCTS_LOAD, resolve => {
@@ -20,3 +19,5 @@ export const productActions = {
         return (id: string) => resolve(id);
     })
 }
+
+export type RootAction = ProductActions | RouterAction;

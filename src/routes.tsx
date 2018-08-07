@@ -6,7 +6,8 @@ import Products from 'components/products/products.component';
 import { History } from 'history';
 import createHistory from 'history/createBrowserHistory';
 import * as React from 'react';
-import { Route, Router } from 'react-router';
+import { Route } from 'react-router';
+import { ConnectedRouter } from 'react-router-redux';
 
 export const history = createHistory();
 
@@ -22,7 +23,7 @@ const handleAuthentication = ({ location }: any) => {
 
 export const doRoutes = () => {
   return (
-    <Router history={history}>
+    <ConnectedRouter history={history}>
       <div>
         <div className="container">
           <Route path="/" render={(props) => <App auth={auth} {...props} />} />
@@ -36,6 +37,6 @@ export const doRoutes = () => {
         </div>
         <NotLoggedIn auth={auth} />
       </div>
-    </Router>
+    </ConnectedRouter>
   );
 }
